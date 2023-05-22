@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 moveDirection;
     Vector3 slopeMoveDirection;
+    public MenuScript menu;
 
     Rigidbody rb;
 
@@ -58,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        menu = GameObject.Find("MenuController").GetComponent<MenuScript>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
     }
@@ -67,12 +69,13 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         Debug.DrawRay(transform.position, Vector3.down * groundDistance, Color.yellow);
 
+        if (menu.paused == false) {
+            MyInput();
+            ControlDrag();
+            ControlSpeed();
+        }
 
-        MyInput();
-        ControlDrag();
-        ControlSpeed();
-
-        if (Input.GetKeyDown(jumpKey) && isGrounded) {
+        if (Input.GetKeyDown(jumpKey) && isGrounded && menu.paused == false) {
             Jump();
         }
 

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
@@ -13,16 +15,21 @@ public class LevelController : MonoBehaviour
     public TextMeshProUGUI currentLevel;
 
     public int contadorOne, contadorTwo, contadorThree;
+    public GameObject panel;
 
     public GameObject barrierOne;
     public GameObject barrierTwo;
     public GameObject barrierThree;
 
+    public MenuScript menu;
+
+
     bool oneFinished, twoFinished;
     // Start is called before the first frame update
     void Start()
     {
-        oneFinished= false;
+        menu = GameObject.Find("MenuController").GetComponent<MenuScript>();
+        oneFinished = false;
         twoFinished= false;
         contadorOne = 0;
         contadorTwo = 0;
@@ -37,6 +44,7 @@ public class LevelController : MonoBehaviour
         }
 
         foreach (var item in curentObjectivesThree) {
+            item.gameObject.SetActive(false);
             contadorThree++;
         }
 
@@ -66,6 +74,12 @@ public class LevelController : MonoBehaviour
             twoFinished = true;
             Destroy(barrierTwo);
             Destroy(barrierThree);
+        }
+
+        if (contadorThree == 0) {
+            menu.PauseGame();
+            panel.SetActive(true);
+
         }
     }
 }

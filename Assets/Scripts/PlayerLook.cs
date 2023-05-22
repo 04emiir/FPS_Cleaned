@@ -21,16 +21,20 @@ public class PlayerLook : MonoBehaviour
     float xRotation;
     float yRotation;
 
+    public MenuScript menu;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        menu = GameObject.Find("MenuController").GetComponent<MenuScript>();
 
     }
 
     private void Update()
     {
-        MyInput();
+        if (menu.paused == false)
+            MyInput();
     }
 
     void MyInput() {

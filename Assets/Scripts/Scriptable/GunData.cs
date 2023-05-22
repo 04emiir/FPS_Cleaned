@@ -11,7 +11,6 @@ public class GunData : ScriptableObject {
     [Header("Shooting")]
     public float damage;
     public float maxDistance;
-    public bool isAutomatic;
     
     [Header("Reloading")]
     public int currentAmmo;

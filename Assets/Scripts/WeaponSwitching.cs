@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WeaponSwitching : MonoBehaviour {
@@ -11,27 +12,25 @@ public class WeaponSwitching : MonoBehaviour {
     [Header("Keys")]
     [SerializeField] private KeyCode[] keys;
 
+    [Header("Data")]
+    [SerializeField] private GunData[] gunData;
+
     [Header("Settings")]
     [SerializeField] private float switchTime;
 
     private int selectedWeapon;
     private float timeSinceLastSwitch;
 
+    public TextMeshProUGUI numberOBullet;
+
     private void Start() {
-        SetWeapons();
+        selectedWeapon = 0;
         Select(selectedWeapon);
 
         timeSinceLastSwitch = 0f;
     }
 
-    private void SetWeapons() {
-        weapons = new Transform[transform.childCount];
 
-        for (int i = 0; i < transform.childCount; i++)
-            weapons[i] = transform.GetChild(i);
-
-        if (keys == null) keys = new KeyCode[weapons.Length];
-    }
 
     private void Update() {
         int previousSelectedWeapon = selectedWeapon;
@@ -40,7 +39,10 @@ public class WeaponSwitching : MonoBehaviour {
             if (Input.GetKeyDown(keys[i]) && timeSinceLastSwitch >= switchTime)
                 selectedWeapon = i;
 
-        if (previousSelectedWeapon != selectedWeapon) Select(selectedWeapon);
+        if (previousSelectedWeapon != selectedWeapon) {
+            Select(selectedWeapon);
+        }
+           
 
         timeSinceLastSwitch += Time.deltaTime;
     }
@@ -50,9 +52,12 @@ public class WeaponSwitching : MonoBehaviour {
             weapons[i].gameObject.SetActive(i == weaponIndex);
 
         timeSinceLastSwitch = 0f;
+        int subweaponIndex = weaponIndex;
 
-        OnWeaponSelected();
+        OnWeaponSelected(subweaponIndex);
     }
 
-    private void OnWeaponSelected() {  }
+    private void OnWeaponSelected(int weaponIndex) {
+        numberOBullet.text = (gunData[weaponIndex].currentAmmo).ToString() + "/" + (gunData[weaponIndex].magSize).ToString();
+    }
 }

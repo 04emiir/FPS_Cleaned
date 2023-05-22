@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   name: Rifle
-  damage: 5
-  maxDistance: 500
-  isAutomatic: 1
-  currentAmmo: 30
+  damage: 15
+  maxDistance: 5000
+  currentAmmo: 25
   magSize: 30
   fireRate: 600
-  reloadTime: 1
+  reloadTime: 10
   reloading: 0
